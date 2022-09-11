@@ -1,0 +1,44 @@
+                                    # CryptoDataDownload
+# No Express Warranty
+import ssl
+import pandas as pd
+from datetime import datetime
+
+
+# change the ssl state so we do not see an error for https:// content
+ssl._create_default_https_context = ssl._create_unverified_context
+
+
+def main():
+    """In our main sample function, we will first load the data into a dataframe and store that into a local
+    variable called df. Our next step is to create a new column and convert the unix timezone into a new time column
+
+    """
+
+    df = load_data_sets()
+    df['newdate'] = pd.to_datetime(df['unix'], unit='ms', origin='unix')
+
+    # newdate column is now a series of datetime64 objects ... you can now use any of the datetime functions to convert to local dates
+    # https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html
+    # https://docs.python.org/3/library/datetime.html#module-datetime
+    
+
+    print("All done! Thank you!")
+
+
+
+def load_data_sets():
+    """This function will load the BTC timeseries for the Gemini exchange and put into Pandas
+    dataframe, then return the dataframe
+
+    """
+    # read the two data sets into dataframes and then return the dataframe
+    btc_df = pd.read_csv("https://www.cryptodatadownload.com/cdd/Gemini_BTCUSD_d.csv", skiprows=1)
+
+    return btc_df
+
+
+
+if __name__ == "__main__":
+    main()
+                 
